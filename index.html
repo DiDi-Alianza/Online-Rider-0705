@@ -155,17 +155,17 @@ const ACCOUNTS=[
 const I18N={
  zh:{d0630:'06-30 模版',d0705:'07-05 比赛日',login_t:'登录',login_s:'RM 用邮箱 + 自己名字登录 · 管理员用管理账号',login_email:'邮箱',login_pw:'密码',login_b:'进入',login_e:'邮箱或密码不正确',
   role_m:'管理员',role_rm:'RM',logout:'退出',banner:'⚠ 共享存储不可用，当前为本机模式：上传的数据只有这台电脑能看到。',
-  up_online:'上传在线骑手',up_online_tag:'含 rider_id',up_detail:'上传排班明细',up_tag_over:'覆盖旧版',up_target:'上传Target',up_promise:'上传承诺数',
+  up_online:'上传在线骑手',up_online_tag:'含 rider_id',up_detail:'上传活跃骑手',up_tag_over:'覆盖旧版',up_target:'上传Target',up_promise:'上传承诺数',
   time_ph:'上传时间…',reset:'重置本日',nosnap:'无快照',latest:'最新',ppl:'人',cursnap:'当前快照：',noonline:'在线数据：未上传',
   k_online:'上线总数',k_sched:'S3 排班总数',k_tgt:'S3 Target总数',k_prom:'承诺总数',k_gap:'GAP(上线−此项)',
-  t_rank:'RM 排名',t_sched:'排班 vs 上线',t_tgt:'Target vs 上线',t_prom:'承诺 vs 上线',
+  t_rank:'RM 排名',t_act:'活跃 vs 上线',t_sched:'排班 vs 上线',t_tgt:'Target vs 上线',t_prom:'承诺 vs 上线',
   rank_note:'排名指标 = <b>上线 ÷ S3 Target</b>。两组按过去一周活跃数以 200 分档，独立排名。"较上个快照"=本快照与上一个半小时快照的上线人数变化；"较全天峰值"=当前上线 − 当天所有快照去重后上线过的骑手总数（负数=有人上过线后掉线未回）。资格（Slot2&3&4 ≥60%）赛后线下核算，不在此页展示。',
   gA:'管理骑手 ≥200',gB:'管理骑手 <200',h_rank:'#',h_rm:'RM/VM',h_size:'管理规模',h_online:'上线',h_t3:'S3 Target',h_score:'排名指标',
   h_dprev:'较上个快照',h_dpeak:'较全天峰值',tm_t:'确认快照时间',tm_s:'该时间已有快照时将直接覆盖',tm_ok:'确认并上传',tm_cancel:'取消',tm_over:'已覆盖',tm_new:'已生成快照',
   n_sched:'缺口 = S3排班 − 上线；红色=排了S3班没上线的人数。点开 RM 看每个 Vendor，按缺口从大到小排。RM 可下载本人名下"排班未上线"骑手明细。',
   n_tgt:'缺口 = 当前时段Target − 上线（13-16点看S2、16-19点看S3、19点后看S4，随快照时间自动切换）；红色=离目标差多少。点开 RM 看每个 Vendor。',
   n_prom:'缺口 = 承诺 − 上线；红色=没兑现承诺的人数。承诺为 Vendor 级。',
-  m_sched:'排班',m_tgt:'Target',m_prom:'承诺',gap:'缺口',online:'上线',
+  m_act:'活跃',m_sched:'排班',n_act:'缺口 = 过去一周活跃骑手 − 上线；红色=活跃但当前没上线的人数。点开 RM 看每个 Vendor，可下载本人名下骑手在线/未上线清单。',m_tgt:'Target',m_prom:'承诺',gap:'缺口',online:'上线',
   worst:(v)=>`⚠ 缺口最大：<b>${v}</b> — 需要重点催线补上`,allok:'✓ 该 RM 名下暂无落后 Vendor',
   dl_rm:'⬇ 下载本 RM 排班未上线明细 (CSV)',dl_lock:'🔒 明细仅本 RM 或管理员可下载',
   st_on:'在线',st_off:'未上线',c_rm:'RM',c_vendor:'Vendor',c_slot:'Slot',c_rider:'rider_id',c_status:'状态',c_city:'City',
@@ -174,17 +174,17 @@ const I18N={
   a_reset:d=>`清空「${d}」的全部上传数据（快照/明细/Target/承诺）？共享库同步删除。`,a_parse:'解析失败：',a_sbfail:'写入共享库失败：'},
  en:{d0630:'06-30 template',d0705:'07-05 match day',login_t:'Sign in',login_s:'RMs: email + your name · Admin: admin account',login_email:'Email',login_pw:'Password',login_b:'Enter',login_e:'Wrong email or password',
   role_m:'Admin',role_rm:'RM',logout:'Sign out',banner:'⚠ Shared storage unavailable — local mode: uploads are visible only on this computer.',
-  up_online:'Upload online riders',up_online_tag:'with rider_id',up_detail:'Upload schedule detail',up_tag_over:'overwrites',up_target:'Upload Target',up_promise:'Upload commitments',
+  up_online:'Upload online riders',up_online_tag:'with rider_id',up_detail:'Upload active riders',up_tag_over:'overwrites',up_target:'Upload Target',up_promise:'Upload commitments',
   time_ph:'Upload time…',reset:'Reset this date',nosnap:'No snapshots',latest:'Latest',ppl:'',cursnap:'Snapshot: ',noonline:'Online data: not uploaded',
   k_online:'Riders online',k_sched:'S3 scheduled',k_tgt:'S3 Target total',k_prom:'Commitment total',k_gap:'GAP (online − this)',
-  t_rank:'RM ranking',t_sched:'Schedule vs online',t_tgt:'Target vs online',t_prom:'Commitment vs online',
+  t_rank:'RM ranking',t_act:'Active vs online',t_sched:'Schedule vs online',t_tgt:'Target vs online',t_prom:'Commitment vs online',
   rank_note:'Metric = <b>online ÷ S3 Target</b>. Groups split at 200 past-week active riders, ranked independently. "vs prev snapshot" = online change vs the previous half-hour snapshot; "vs day peak" = current online minus the distinct riders seen online at any point today (negative = riders who went online earlier and dropped). Eligibility (≥60%) is settled offline post-match.',
   gA:'Fleet ≥200',gB:'Fleet <200',h_rank:'#',h_rm:'RM/VM',h_size:'Fleet',h_online:'Online',h_t3:'S3 Target',h_score:'Metric',
   h_dprev:'vs prev snapshot',h_dpeak:'vs day peak',tm_t:'Confirm snapshot time',tm_s:'Uploading to an existing time overwrites it',tm_ok:'Confirm & upload',tm_cancel:'Cancel',tm_over:'Overwritten',tm_new:'Snapshot created',
   n_sched:'Gap = scheduled − online; red = riders who scheduled but are not online. Open an RM to see each vendor, sorted by gap. RMs can download their own "scheduled but offline" list.',
   n_tgt:'Gap = current-slot Target − online (S2 before 16:00, S3 16-19, S4 after 19:00; follows the snapshot time); red = distance to target. Open an RM to see each vendor.',
   n_prom:'Gap = commitment − online; red = unfulfilled commitments. Commitments are vendor-level.',
-  m_sched:'Sched',m_tgt:'Target',m_prom:'Promise',gap:'Gap',online:'Online',
+  m_act:'Active',m_sched:'Sched',n_act:'Gap = past-week active riders − online; red = active riders not online now. Open an RM to see each vendor; RMs can download their own rider online/offline list.',m_tgt:'Target',m_prom:'Promise',gap:'Gap',online:'Online',
   worst:(v)=>`⚠ Biggest gaps: <b>${v}</b> — chase them now`,allok:'✓ No vendor behind under this RM',
   dl_rm:'⬇ Download this RM offline-rider list (CSV)',dl_lock:'🔒 Only this RM or admin can download',
   st_on:'Online',st_off:'Offline',c_rm:'RM',c_vendor:'Vendor',c_slot:'Slot',c_rider:'rider_id',c_status:'Status',c_city:'City',
@@ -193,17 +193,17 @@ const I18N={
   a_reset:d=>`Clear ALL uploads for ${d} (snapshots/detail/target/commitments)? Shared store will be wiped too.`,a_parse:'Parse failed: ',a_sbfail:'Shared store write failed: '},
  es:{d0630:'06-30 plantilla',d0705:'07-05 día de partido',login_t:'Iniciar sesión',login_s:'RM: correo + tu nombre · Admin: cuenta admin',login_email:'Correo',login_pw:'Contraseña',login_b:'Entrar',login_e:'Correo o contraseña incorrectos',
   role_m:'Admin',role_rm:'RM',logout:'Salir',banner:'⚠ Almacenamiento compartido no disponible — modo local: solo esta computadora ve lo subido.',
-  up_online:'Subir repartidores en línea',up_online_tag:'con rider_id',up_detail:'Subir detalle de turnos',up_tag_over:'reemplaza',up_target:'Subir Target',up_promise:'Subir compromisos',
+  up_online:'Subir repartidores en línea',up_online_tag:'con rider_id',up_detail:'Subir repartidores activos',up_tag_over:'reemplaza',up_target:'Subir Target',up_promise:'Subir compromisos',
   time_ph:'Hora de subida…',reset:'Reiniciar fecha',nosnap:'Sin snapshots',latest:'Más reciente',ppl:'',cursnap:'Snapshot: ',noonline:'Datos en línea: sin subir',
   k_online:'En línea',k_sched:'Turnos S3',k_tgt:'Target S3 total',k_prom:'Compromiso total',k_gap:'GAP (en línea − esto)',
-  t_rank:'Ranking RM',t_sched:'Turnos vs en línea',t_tgt:'Target vs en línea',t_prom:'Compromiso vs en línea',
+  t_rank:'Ranking RM',t_act:'Activos vs en línea',t_sched:'Turnos vs en línea',t_tgt:'Target vs en línea',t_prom:'Compromiso vs en línea',
   rank_note:'Indicador = <b>en línea ÷ Target S3</b>. Grupos divididos en 200 por activos de la última semana. "vs snapshot ant." = cambio vs el snapshot anterior; "vs pico del día" = en línea ahora menos los repartidores únicos que estuvieron en línea hoy (negativo = se conectaron y se cayeron). La elegibilidad (≥60%) se calcula offline después del partido.',
   gA:'Flota ≥200',gB:'Flota <200',h_rank:'#',h_rm:'RM/VM',h_size:'Flota',h_online:'En línea',h_t3:'Target S3',h_score:'Indicador',
   h_dprev:'vs snapshot ant.',h_dpeak:'vs pico del día',tm_t:'Confirma la hora del snapshot',tm_s:'Subir a una hora existente la sobrescribe',tm_ok:'Confirmar y subir',tm_cancel:'Cancelar',tm_over:'Sobrescrito',tm_new:'Snapshot creado',
   n_sched:'Brecha = turnos − en línea; rojo = agendados que no se conectaron. Abre un RM para ver cada vendor, ordenado por brecha. Cada RM puede descargar su lista de "agendados sin conectar".',
   n_tgt:'Brecha = Target del slot actual − en línea (S2 antes de 16:00, S3 16-19, S4 después de 19:00; sigue la hora del snapshot); rojo = lo que falta. Abre un RM para ver cada vendor.',
   n_prom:'Brecha = compromiso − en línea; rojo = compromisos sin cumplir. El compromiso es por vendor.',
-  m_sched:'Turnos',m_tgt:'Target',m_prom:'Comprom.',gap:'Brecha',online:'En línea',
+  m_act:'Activos',m_sched:'Turnos',n_act:'Brecha = activos de la última semana − en línea; rojo = activos que no están en línea. Abre un RM; cada RM puede descargar su lista de riders en línea / sin conectar.',m_tgt:'Target',m_prom:'Comprom.',gap:'Brecha',online:'En línea',
   worst:(v)=>`⚠ Mayores brechas: <b>${v}</b> — hay que apurarlos ya`,allok:'✓ Ningún vendor rezagado bajo este RM',
   dl_rm:'⬇ Descargar lista de no conectados de este RM (CSV)',dl_lock:'🔒 Solo este RM o el admin puede descargar',
   st_on:'En línea',st_off:'Sin conectar',c_rm:'RM',c_vendor:'Vendor',c_slot:'Slot',c_rider:'rider_id',c_status:'Estado',c_city:'Ciudad',
@@ -280,10 +280,10 @@ function cleanRM(rm){const r=String(rm==null?'':rm).trim();if(BADRM.has(r.toLowe
   if(r.toLowerCase()==='ramses gonzalez')return 'Ramses Gonzalez';return r;}
 function plan(date){
   const byVc={},v2rm={},v2city={};
-  const touch=vc=>byVc[vc]||(byVc[vc]={rm:'',city:'',sched:0,tS3:0,tMatch:0,tCur:0,promise:0});
+  const touch=vc=>byVc[vc]||(byVc[vc]={rm:'',city:'',sched:0,active:0,tS3:0,tMatch:0,tCur:0,promise:0});
   const _TS=curSlot();dset(date,'target').forEach(r=>{const vc=r.vc;touch(vc);const _rm=cleanRM(r.rm);if(_rm)v2rm[vc]=_rm;if(r.city)v2city[vc]=r.city;
     if(r.slot==='S3')byVc[vc].tS3+=r.target;if(r.slot===_TS)byVc[vc].tCur+=r.target;if(MATCH.includes(r.slot))byVc[vc].tMatch+=r.target;});
-  const sc=schedByVcSlot(date);
+  const det=store.detail[date]||[];const seenAct={};det.forEach(r=>{const k=r.vc+'|'+r.rider_id;if(seenAct[k])return;seenAct[k]=1;touch(r.vc);byVc[r.vc].active=(byVc[r.vc].active||0)+1;if(r.city&&!v2city[r.vc])v2city[r.vc]=r.city;});const sc={};
   Object.keys(sc).forEach(k=>{const[vc,slot]=k.split('|');touch(vc);if(slot==='S3')byVc[vc].sched+=sc[k];});
   dset(date,'schedule').forEach(r=>{const _rm=cleanRM(r.rm);if(_rm&&!v2rm[r.vc])v2rm[r.vc]=_rm;if(r.city&&!v2city[r.vc])v2city[r.vc]=r.city;});
   dset(date,'promise').forEach(r=>{const vc=r.vc;touch(vc);byVc[vc].promise+=r.promise;const _rm=cleanRM(r.rm);if(_rm&&!v2rm[vc])v2rm[vc]=_rm;});
@@ -349,7 +349,7 @@ function renderSnapSel(){const el=document.getElementById('snapSel');const s=sna
   el.value=String(curSnapIdx(cur.date));
   el.onchange=()=>{cur.snap[cur.date]=+el.value;renderAll();};}
 function renderTabs(){const el=document.getElementById('tabs');el.innerHTML='';
-  [['rank',T().t_rank],['target',T().t_tgt],['promise',T().t_prom]].forEach(([k,lab])=>{
+  [['rank',T().t_rank],['active',T().t_act],['target',T().t_tgt],['promise',T().t_prom]].forEach(([k,lab])=>{
     const b=document.createElement('button');b.textContent=lab;b.className=cur.tab===k?'on':'';
     b.onclick=()=>{cur.tab=k;renderTabs();renderView();};el.appendChild(b);});}
 function gapHtml(g){ // g = online - metric; 落后为负 → 红
@@ -395,7 +395,8 @@ function viewRank(){const rows=rankRows();
   return `<div class="note">${T().rank_note}</div>${tbl('A')}${tbl('B')}`;}
 
 function GAPCFGf(kind){const t=T();
-  return kind==='target'?{mkey:'tCur',mlab:curSlot()+' '+t.m_tgt,note:t.n_tgt}
+  return kind==='active'?{mkey:'active',mlab:t.m_act,note:t.n_act}
+       :kind==='target'?{mkey:'tCur',mlab:curSlot()+' '+t.m_tgt,note:t.n_tgt}
        :{mkey:'promise',mlab:t.m_prom,note:t.n_prom};}
 function viewGap(kind){const cfg=GAPCFGf(kind),P=plan(cur.date),on=onlineByVc(cur.date);
   const rmAgg={};Object.keys(P.vByRM).forEach(rm=>{if(rm==='—'||rm==='')return;let m=0,o=0;P.vByRM[rm].forEach(vc=>{m+=P.byVc[vc][cfg.mkey];o+=on[vc]||0;});rmAgg[rm]={rm,metric:m,online:o,gap:m-o};});
@@ -408,7 +409,7 @@ function viewGap(kind){const cfg=GAPCFGf(kind),P=plan(cur.date),on=onlineByVc(cu
       const worst=vs.filter(v=>v.gap>0).slice(0,3).map(v=>v.vc);
       const warn=worst.length?`<div class="warn">${T().worst(worst.join(', '))}</div>`:`<div class="warn ok">${T().allok}</div>`;
       const canDl=USER&&(USER.r==='master'||USER.n===r.rm);
-      const dl=(kind==='sched')?`<div class="dlrow">${canDl?`<button class="btn" data-dlrm="${encodeURIComponent(r.rm)}">${T().dl_rm}</button>`:`<span class="muted">${T().dl_lock}</span>`}</div>`:'';
+      const dl=(kind==='active')?`<div class="dlrow">${canDl?`<button class="btn" data-dlrm="${encodeURIComponent(r.rm)}">${T().dl_rm}</button>`:`<span class="muted">${T().dl_lock}</span>`}</div>`:'';
       body=`<div class="rmbody">${warn}<div class="tablewrap" style="border:0;border-radius:0"><table><thead><tr>
         <th class="l">${T().c_vendor}</th><th class="l">${T().c_city}</th><th>${cfg.mlab}</th><th>${T().h_online}</th><th>${T().gap}</th></tr></thead><tbody>${
         vs.map(v=>{const c=v.gap>0?'gapred':(v.gap<0?'gapok':'gapzero');
@@ -437,8 +438,8 @@ function downloadRM(rm){
   const onIds=new Set((snap.pairs||[]).map(p=>p[0]));
   const P=plan(cur.date);const myVcs=new Set(P.vByRM[rm]||[]);
   const rows=[],seen={};
-  det.forEach(r=>{if(!myVcs.has(r.vc))return;const k=r.vc+'|'+r.slot+'|'+r.rider_id;if(seen[k])return;seen[k]=1;
-    const o={};o[T().c_rm]=rm;o[T().c_vendor]=r.vc;o[T().c_slot]=r.slot;o[T().c_rider]=r.rider_id;o[T().c_status]=onIds.has(String(r.rider_id))?T().st_on:T().st_off;rows.push(o);});
+  det.forEach(r=>{if(!myVcs.has(r.vc))return;const k=r.vc+'|'+r.rider_id;if(seen[k])return;seen[k]=1;
+    const o={};o[T().c_rm]=rm;o[T().c_vendor]=r.vc;o[T().c_rider]=r.rider_id;o[T().c_status]=onIds.has(String(r.rider_id))?T().st_on:T().st_off;rows.push(o);});
   rows.sort((a,b)=>((a[T().c_status]===T().st_off)?-1:1)-((b[T().c_status]===T().st_off)?-1:1));
   if(!rows.length){alert(T().a_norows);return;}
   const ks=Object.keys(rows[0]);
@@ -494,7 +495,7 @@ async function ingestOnline(raw,label){const date=cur.date;
 
 async function ingest(kind,raw){const date=cur.date;
   if(kind==='detail'){
-    const rows=raw.map(r=>({rider_id:String(col(r,['rider_id','riderid','id'])||'').trim(),vc:U(col(r,['vendor_code','vc','vendor'])),slot:U(col(r,['slot']))})).filter(r=>/^\d{6,}$/.test(r.rider_id)&&r.vc&&r.slot);
+    const rows=raw.map(r=>({rider_id:String(col(r,['rider_id','riderid','id'])||'').trim(),vc:U(col(r,['vendor_code','vc','vendor'])),city:String(col(r,['city_name','city'])||'')})).filter(r=>/^\d{6,}$/.test(r.rider_id)&&r.vc);
     await saveKey(date,'detail',rows);alert(T().a_detok(rows.length));
   }else if(kind==='target'){
     const dfilter=raw.some(r=>col(r,['date'])!=null&&String(col(r,['date'])).length);
