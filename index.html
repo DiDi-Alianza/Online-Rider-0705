@@ -223,6 +223,9 @@ let store={online:{},detail:{},over:{}};
 let cur={date:'2026-07-05',tab:'rank',snap:{},exp:{}};
 
 const U=s=>String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase();
+function colLike(row,subs){const ks=Object.keys(row);
+  for(const sub of subs){const k=ks.find(k=>String(k).toLowerCase().replace(/[\s_\ufeff]/g,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(sub));if(k!=null)return row[k];}
+  return undefined;}
 function col(row,names){const ks=Object.keys(row);for(const n of names){const k=ks.find(k=>k.toLowerCase().replace(/[\s_\ufeff]/g,'')===n.toLowerCase().replace(/[\s_]/g,''));if(k!=null)return row[k];}return undefined;}
 function num(v){const n=Number(String(v==null?'':v).replace(/[, ]/g,''));return isNaN(n)?0:n;}
 
@@ -498,7 +501,7 @@ async function ingest(kind,raw){const date=cur.date;
     await saveKey(date,'target',rows);alert(T().a_tgtok(rows.length,date));
   }else if(kind==='promise'){
     const rows=[],seen={};raw.forEach(r=>{const vc=U(col(r,['vendor_code','vendor','vc']));if(!vc)return;const z=num(col(r,['zone','opzone']));const k=vc+'|'+z;if(seen[k])return;seen[k]=1;
-      rows.push({vc,city:String(col(r,['city'])||''),rm:'',zone:z,promise:num(col(r,['promise','estimación','estimacion','承诺']))});});
+      rows.push({vc,city:String(col(r,['city'])||''),rm:String(col(r,['rm','rm/vm'])||''),zone:z,promise:num(colLike(r,['estimaci','promise','\u627f\u8bfa']))});});
     await saveKey(date,'promise',rows);alert(T().a_promok(rows.length));
   }}
 
