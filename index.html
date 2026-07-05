@@ -157,7 +157,7 @@ const I18N={
   role_m:'管理员',role_rm:'RM',logout:'退出',banner:'⚠ 共享存储不可用，当前为本机模式：上传的数据只有这台电脑能看到。',
   up_online:'上传在线骑手',up_online_tag:'含 rider_id',up_detail:'上传活跃骑手',up_tag_over:'覆盖旧版',up_target:'上传Target',up_promise:'上传承诺数',
   time_ph:'上传时间…',reset:'重置本日',nosnap:'无快照',latest:'最新',ppl:'人',cursnap:'当前快照：',noonline:'在线数据：未上传',
-  k_online:'上线总数',k_sched:'S3 排班总数',k_tgt:'S3 Target总数',k_prom:'承诺总数',k_gap:'GAP(上线−此项)',
+  k_online:'上线总数',k_act:'过去一周活跃骑手',k_sched:'S3 排班总数',k_tgt:'S3 Target总数',k_prom:'承诺总数',k_gap:'GAP(上线−此项)',
   t_rank:'RM 排名',t_act:'活跃 vs 上线',t_sched:'排班 vs 上线',t_tgt:'Target vs 上线',t_prom:'承诺 vs 上线',
   rank_note:'排名指标 = <b>上线 ÷ S3 Target</b>。两组按过去一周活跃数以 200 分档，独立排名。"较上个快照"=本快照与上一个半小时快照的上线人数变化；"较全天峰值"=当前上线 − 当天所有快照去重后上线过的骑手总数（负数=有人上过线后掉线未回）。资格（Slot2&3&4 ≥60%）赛后线下核算，不在此页展示。',
   gA:'管理骑手 ≥200',gB:'管理骑手 <200',h_rank:'#',h_rm:'RM/VM',h_size:'管理规模',h_online:'上线',h_t3:'S3 Target',h_score:'排名指标',
@@ -176,7 +176,7 @@ const I18N={
   role_m:'Admin',role_rm:'RM',logout:'Sign out',banner:'⚠ Shared storage unavailable — local mode: uploads are visible only on this computer.',
   up_online:'Upload online riders',up_online_tag:'with rider_id',up_detail:'Upload active riders',up_tag_over:'overwrites',up_target:'Upload Target',up_promise:'Upload commitments',
   time_ph:'Upload time…',reset:'Reset this date',nosnap:'No snapshots',latest:'Latest',ppl:'',cursnap:'Snapshot: ',noonline:'Online data: not uploaded',
-  k_online:'Riders online',k_sched:'S3 scheduled',k_tgt:'S3 Target total',k_prom:'Commitment total',k_gap:'GAP (online − this)',
+  k_online:'Riders online',k_act:'Past-week active riders',k_sched:'S3 scheduled',k_tgt:'S3 Target total',k_prom:'Commitment total',k_gap:'GAP (online − this)',
   t_rank:'RM ranking',t_act:'Active vs online',t_sched:'Schedule vs online',t_tgt:'Target vs online',t_prom:'Commitment vs online',
   rank_note:'Metric = <b>online ÷ S3 Target</b>. Groups split at 200 past-week active riders, ranked independently. "vs prev snapshot" = online change vs the previous half-hour snapshot; "vs day peak" = current online minus the distinct riders seen online at any point today (negative = riders who went online earlier and dropped). Eligibility (≥60%) is settled offline post-match.',
   gA:'Fleet ≥200',gB:'Fleet <200',h_rank:'#',h_rm:'RM/VM',h_size:'Fleet',h_online:'Online',h_t3:'S3 Target',h_score:'Metric',
@@ -195,7 +195,7 @@ const I18N={
   role_m:'Admin',role_rm:'RM',logout:'Salir',banner:'⚠ Almacenamiento compartido no disponible — modo local: solo esta computadora ve lo subido.',
   up_online:'Subir repartidores en línea',up_online_tag:'con rider_id',up_detail:'Subir repartidores activos',up_tag_over:'reemplaza',up_target:'Subir Target',up_promise:'Subir compromisos',
   time_ph:'Hora de subida…',reset:'Reiniciar fecha',nosnap:'Sin snapshots',latest:'Más reciente',ppl:'',cursnap:'Snapshot: ',noonline:'Datos en línea: sin subir',
-  k_online:'En línea',k_sched:'Turnos S3',k_tgt:'Target S3 total',k_prom:'Compromiso total',k_gap:'GAP (en línea − esto)',
+  k_online:'En línea',k_act:'Activos última semana',k_sched:'Turnos S3',k_tgt:'Target S3 total',k_prom:'Compromiso total',k_gap:'GAP (en línea − esto)',
   t_rank:'Ranking RM',t_act:'Activos vs en línea',t_sched:'Turnos vs en línea',t_tgt:'Target vs en línea',t_prom:'Compromiso vs en línea',
   rank_note:'Indicador = <b>en línea ÷ Target S3</b>. Grupos divididos en 200 por activos de la última semana. "vs snapshot ant." = cambio vs el snapshot anterior; "vs pico del día" = en línea ahora menos los repartidores únicos que estuvieron en línea hoy (negativo = se conectaron y se cayeron). La elegibilidad (≥60%) se calcula offline después del partido.',
   gA:'Flota ≥200',gB:'Flota <200',h_rank:'#',h_rm:'RM/VM',h_size:'Flota',h_online:'En línea',h_t3:'Target S3',h_score:'Indicador',
@@ -360,10 +360,10 @@ function renderKpis(){
   const P=plan(cur.date),on=onlineByVc(cur.date),sc=schedByVcSlot(cur.date);
   let onl=0;Object.keys(on).forEach(vc=>onl+=on[vc]);
   const _AS=curSlot();
-  let tgt=0,prom=0;Object.keys(P.byVc).forEach(vc=>{tgt+=P.byVc[vc].tCur;prom+=P.byVc[vc].promise;});
+  let tgt=0,prom=0,act=0;Object.keys(P.byVc).forEach(vc=>{tgt+=P.byVc[vc].tCur;prom+=P.byVc[vc].promise;act+=P.byVc[vc].active||0;});
   const el=document.getElementById('kpis');
   const card=(l,v,g)=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div>${g!=null?`<div class="g">${T().k_gap} ${gapHtml(g)}</div>`:''}</div>`;
-  el.innerHTML=card(T().k_online,onl||'—')+card(T().k_tgt.replace('S3',_AS),tgt,onl-tgt)+card(T().k_prom,prom,onl-prom);
+  el.innerHTML=card(T().k_online,onl||'—')+card(T().k_act,act,onl-act)+card(T().k_tgt.replace('S3',_AS),tgt,onl-tgt)+card(T().k_prom,prom,onl-prom);
   const s=curSnap(cur.date);
   document.getElementById('lastup').textContent=s?(T().cursnap+(s.label||'?')+' ('+s.count+T().ppl+')'):T().noonline;}
 
