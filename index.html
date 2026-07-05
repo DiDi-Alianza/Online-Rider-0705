@@ -281,6 +281,7 @@ function cleanRM(rm){const r=String(rm==null?'':rm).trim();if(BADRM.has(r.toLowe
 function plan(date){
   const byVc={},v2rm={},v2city={};
   const touch=vc=>byVc[vc]||(byVc[vc]={rm:'',city:'',sched:0,active:0,tS3:0,tMatch:0,tCur:0,promise:0});
+  const v2rmFix={'CASSABDIDICDMX26062128':'Jesus','SHUOWANGDIDICDMX26062133':'Jesus'};Object.keys(v2rmFix).forEach(vc=>{v2rm[vc]=v2rmFix[vc];});
   const _TS=curSlot();dset(date,'target').forEach(r=>{const vc=r.vc;touch(vc);const _rm=cleanRM(r.rm);if(_rm)v2rm[vc]=_rm;if(r.city)v2city[vc]=r.city;
     if(r.slot==='S3')byVc[vc].tS3+=r.target;if(r.slot===_TS)byVc[vc].tCur+=r.target;if(MATCH.includes(r.slot))byVc[vc].tMatch+=r.target;});
   const det=store.detail[date]||[];const seenAct={};det.forEach(r=>{const k=r.vc+'|'+r.rider_id;if(seenAct[k])return;seenAct[k]=1;touch(r.vc);byVc[r.vc].active=(byVc[r.vc].active||0)+1;if(r.city&&!v2city[r.vc])v2city[r.vc]=r.city;});const sc={};
