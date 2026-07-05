@@ -162,7 +162,7 @@ const I18N={
   rank_note:'排名指标 = <b>上线 ÷ S3 Target</b>。两组按过去一周活跃数以 200 分档，独立排名。"较上个快照"=本快照与上一个半小时快照的上线人数变化；"较全天峰值"=当前上线 − 当天所有快照去重后上线过的骑手总数（负数=有人上过线后掉线未回）。资格（Slot2&3&4 ≥60%）赛后线下核算，不在此页展示。',
   gA:'管理骑手 ≥200',gB:'管理骑手 <200',h_rank:'#',h_rm:'RM/VM',h_size:'管理规模',h_online:'上线',h_t3:'S3 Target',h_score:'排名指标',
   h_dprev:'较上个快照',h_dpeak:'较全天峰值',tm_t:'确认快照时间',tm_s:'该时间已有快照时将直接覆盖',tm_ok:'确认并上传',tm_cancel:'取消',tm_over:'已覆盖',tm_new:'已生成快照',
-  n_sched:'缺口 = 排班 − 上线；红色=排了班没上线的人数。点开 RM 看每个 Vendor，按缺口从大到小排。RM 可下载本人名下"排班未上线"骑手明细。',
+  n_sched:'缺口 = S3排班 − 上线；红色=排了S3班没上线的人数。点开 RM 看每个 Vendor，按缺口从大到小排。RM 可下载本人名下"排班未上线"骑手明细。',
   n_tgt:'缺口 = Target(S2+S3+S4) − 上线；红色=离目标差多少。点开 RM 看每个 Vendor。',
   n_prom:'缺口 = 承诺 − 上线；红色=没兑现承诺的人数。承诺为 Vendor 级。',
   m_sched:'排班',m_tgt:'Target',m_prom:'承诺',gap:'缺口',online:'上线',
@@ -283,7 +283,7 @@ function plan(date){
   dset(date,'target').forEach(r=>{const vc=r.vc;touch(vc);const _rm=cleanRM(r.rm);if(_rm)v2rm[vc]=_rm;if(r.city)v2city[vc]=r.city;
     if(r.slot==='S3')byVc[vc].tS3+=r.target;if(MATCH.includes(r.slot))byVc[vc].tMatch+=r.target;});
   const sc=schedByVcSlot(date);
-  Object.keys(sc).forEach(k=>{const[vc,slot]=k.split('|');touch(vc);if(MATCH.includes(slot))byVc[vc].sched+=sc[k];});
+  Object.keys(sc).forEach(k=>{const[vc,slot]=k.split('|');touch(vc);if(slot==='S3')byVc[vc].sched+=sc[k];});
   dset(date,'schedule').forEach(r=>{const _rm=cleanRM(r.rm);if(_rm&&!v2rm[r.vc])v2rm[r.vc]=_rm;if(r.city&&!v2city[r.vc])v2city[r.vc]=r.city;});
   dset(date,'promise').forEach(r=>{const vc=r.vc;touch(vc);byVc[vc].promise+=r.promise;const _rm=cleanRM(r.rm);if(_rm&&!v2rm[vc])v2rm[vc]=_rm;});
   Object.keys(byVc).forEach(vc=>{byVc[vc].rm=v2rm[vc]||'—';byVc[vc].city=v2city[vc]||'';});
